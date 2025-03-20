@@ -11,11 +11,16 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('frutas', function (Blueprint $table) {
+        Schema::create('drinks', function (Blueprint $table) {
             $table->id();
             $table->timestamps();
             $table->string('nome');
+            $table->string('foto')->nullable();
+            $table->string('preparo', 150);
+            $table->foreignId('fruta_id')->constrained()->onDelete('cascade');
+            $table->foreignId('bebida_id')->constrained()->onDelete('cascade');
         });
+        
     }
 
     /**
@@ -23,6 +28,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('frutas');
+        Schema::dropIfExists('drinks');
     }
 };
