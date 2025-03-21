@@ -10,9 +10,16 @@ class IngredienteController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        //
+        if($request) {
+            $ingrediente = Ingrediente::where('nome', 'like', $request->input('nome').'%')->get();
+        } else {
+            $ingrediente = Ingrediente::all();
+        }
+
+        return  response()->json($ingrediente);
+
     }
 
     /**

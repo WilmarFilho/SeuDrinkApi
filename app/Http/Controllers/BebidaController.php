@@ -11,15 +11,17 @@ class BebidaController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index(Request $request, $vodka = 'a')
+    public function index(Request $request)
     {
 
-        $bebida = Bebida::all();
-
-        
-
+        if($request) {
+            $bebida = Bebida::where('nome', 'like', '%' . $request->input('nome').'%')->get();
+        } else {
+            $bebida = Bebida::all();
+        }
 
         return  response()->json($bebida);
+
     }
 
     /**

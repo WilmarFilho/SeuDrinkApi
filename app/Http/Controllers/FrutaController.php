@@ -10,9 +10,15 @@ class FrutaController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        //
+        if($request) {
+            $fruta = Fruta::where('nome', 'like', $request->input('nome').'%')->get();
+        } else {
+            $fruta = Fruta::all();
+        }
+
+        return  response()->json($fruta);
     }
 
     /**
