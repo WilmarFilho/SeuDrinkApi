@@ -5,14 +5,21 @@ namespace App\Http\Controllers;
 use App\Models\Bebida;
 use Illuminate\Http\Request;
 
+
 class BebidaController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request, $vodka = 'a')
     {
-        //
+
+        $bebida = Bebida::all();
+
+        
+
+
+        return  response()->json($bebida);
     }
 
     /**
