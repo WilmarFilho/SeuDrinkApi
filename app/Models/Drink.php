@@ -6,6 +6,15 @@ use Illuminate\Database\Eloquent\Model;
 
 class Drink extends Model
 {
+
+    protected $fillable = [
+        'nome',
+        'foto',
+        'preparo',
+        'fruta_id',
+        'bebida_id'
+    ] ;
+
     public function ingredientes() {
         return $this->belongsToMany(Drink::class);
     }

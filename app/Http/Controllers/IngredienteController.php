@@ -35,7 +35,11 @@ class IngredienteController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $novoIngrediente  = Ingrediente::create([
+            "nome"=> $request->input("nome")
+        ]);
+
+        return response()->json(['message' => 'Ingrediente criado com sucesso!', 'data' => $novoIngrediente], 201);
     }
 
     /**

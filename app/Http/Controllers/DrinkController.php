@@ -28,8 +28,17 @@ class DrinkController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $novoDrink  = Drink::create([
+            "nome"=> $request->input("nome"),
+            "foto"=> $request->input("foto"),
+            "preparo"=> $request->input("preparo"),
+            "fruta_id"=> $request->input("fruta_id"),
+            "bebida_id"=> $request->input("bebida_id"),
+        ]);
+
+        return response()->json(['message' => 'Drink criado com sucesso!', 'data' => $novoDrink], 201);
     }
+    
 
     /**
      * Display the specified resource.

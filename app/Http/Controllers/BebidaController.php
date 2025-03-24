@@ -37,7 +37,11 @@ class BebidaController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $novaBebida = Bebida::create([
+            "nome"=> $request->input("nome")
+        ]);
+
+        return response()->json(['message' => 'Bebida criada com sucesso!', 'data' => $novaBebida], 201);
     }
 
     /**

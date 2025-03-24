@@ -34,7 +34,11 @@ class FrutaController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $novaFruta  = Fruta::create([
+            "nome"=> $request->input("nome")
+        ]);
+
+        return response()->json(['message' => 'Fruta criada com sucesso!', 'data' => $novaFruta], 201);
     }
 
     /**
