@@ -17,6 +17,7 @@ Route::get('/user', function (Request $request) {
 Route::get('/bebidas', [BebidaController::class, 'index']);
 Route::get('/frutas', [FrutaController::class, 'index']);
 Route::get('/ingredientes', [IngredienteController::class, 'index']);
+Route::get('/drink', [DrinkController::class, 'index']);
 
 Route::post('/drink/novo', [DrinkController::class, 'store']);
 Route::post('/fruta/novo', [FrutaController::class, 'store']);

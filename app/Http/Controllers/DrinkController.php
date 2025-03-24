@@ -10,9 +10,12 @@ class DrinkController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        //
+        $drinks = Drink::where('fruta_id', $request->input('fruta_id'))->where('bebida_id', $request->input('bebida_id'))->get();
+
+        return response()->json($drinks);
+
     }
 
     /**
@@ -28,17 +31,17 @@ class DrinkController extends Controller
      */
     public function store(Request $request)
     {
-        $novoDrink  = Drink::create([
-            "nome"=> $request->input("nome"),
-            "foto"=> $request->input("foto"),
-            "preparo"=> $request->input("preparo"),
-            "fruta_id"=> $request->input("fruta_id"),
-            "bebida_id"=> $request->input("bebida_id"),
+        $novoDrink = Drink::create([
+            "nome" => $request->input("nome"),
+            "foto" => $request->input("foto"),
+            "preparo" => $request->input("preparo"),
+            "fruta_id" => $request->input("fruta_id"),
+            "bebida_id" => $request->input("bebida_id"),
         ]);
 
         return response()->json(['message' => 'Drink criado com sucesso!', 'data' => $novoDrink], 201);
     }
-    
+
 
     /**
      * Display the specified resource.
