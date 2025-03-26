@@ -67,7 +67,7 @@
             <h2 class="mb-5 text-center">Rotas para Consulta [GET]</h2>
 
             <div class="alert alert-primary" role="alert">
-                https://apiDrink.celleta.com/bebidas
+                https://apiDrink.celleta.com/api/bebidas
             </div>
 
             <div class="params">
@@ -85,7 +85,7 @@
 
 
             <div class="alert alert-primary" role="alert">
-                https://apiDrink.celleta.com/frutas
+                https://apiDrink.celleta.com/api/frutas
             </div>
 
             <div class="params">
@@ -100,7 +100,7 @@
             </div>
 
             <div class="alert alert-primary mb-5" role="alert">
-                https://apiDrink.celleta.com/drinks
+                https://apiDrink.celleta.com/api/drinks
             </div>
 
             <div class="params">
@@ -122,7 +122,7 @@
             <h2 class="mb-5  text-center">Rotas para Criação [POST]</h2>
 
             <div class="alert alert-success" role="alert">
-                https://apiDrink.celleta.com/bebida/novo
+                https://apiDrink.celleta.com/api/bebida/novo
             </div>
 
             <div class="params">
@@ -137,7 +137,7 @@
             </div>
 
             <div class="alert alert-success" role="alert">
-                https://apiDrink.celleta.com/fruta/novo
+                https://apiDrink.celleta.com/api/fruta/novo
             </div>
 
             <div class="params">
@@ -152,7 +152,7 @@
             </div>
 
             <div class="alert alert-success" role="alert">
-                https://apiDrink.celleta.com/ingrediente/novo
+                https://apiDrink.celleta.com/api/ingrediente/novo
             </div>
 
             <div class="params">
@@ -167,7 +167,7 @@
             </div>
 
             <div class="alert alert-success" role="alert">
-                https://apiDrink.celleta.com/drink/novo
+                https://apiDrink.celleta.com/api/drink/novo
             </div>
 
             <div class="params">
