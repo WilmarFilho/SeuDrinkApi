@@ -30,39 +30,56 @@
         main,
         html {
             background-color: black;
-           
-        }
-
-        main {
-            display: flex;
-            padding: 5em 10em;
-            justify-content: center;
-            align-items: center;
-        }
-
-        main section {
-            
-            border-radius: 30px;
             color: white;
         }
 
         .params {
             display: flex;
             flex-direction: row;
-            gap: 2em;
+            flex-wrap: wrap;
+            gap: 1em;
             align-items: center;
-            margin: 2em 0;
+            margin: 1em 0;
         }
 
 
+        .container {
+            width: 75%;
+            padding: 5em 0;
+        }
 
+        div.alert {
+            font-size: 1em;
+        }
+
+        @media screen and (max-width: 768px) {
+            .container {
+                width: 90%;
+            }
+
+            div.alert {
+                font-size: 1em;
+            }
+        }
+
+        @media screen and (max-width: 480px) {
+            .container {
+                width: 80%;
+            }
+
+            div.alert {
+                font-size: 0.7em;
+                padding: 1rem 0.5rem;
+            }
+
+        }
     </style>
 
 </head>
 
 <body>
 
-    <main class="flex max-w-[335px] w-full flex-col-reverse lg:max-w-4xl lg:flex-row">
+    <main class="container">
         <section>
             <h2 class="mb-5 text-center">Rotas para Consulta [GET]</h2>
 
@@ -72,13 +89,13 @@
 
             <div class="params">
 
-                <h4>Parâmetros:</h4>
+
 
                 <button type="button" class="btn btn-secondary" data-bs-container="body" data-bs-toggle="popover"
                     data-bs-placement="top" data-bs-content="Top popover">
                     {NOME : STRING}
                 </button>
-               
+
             </div>
 
 
@@ -90,22 +107,22 @@
 
             <div class="params">
 
-                <h4>Parâmetros:</h4>
+
 
                 <button type="button" class="btn btn-secondary" data-bs-container="body" data-bs-toggle="popover"
                     data-bs-placement="top" data-bs-content="Top popover">
                     {NOME : STRING}
                 </button>
-               
+
             </div>
 
-            <div class="alert alert-primary mb-5" role="alert">
+            <div class="alert alert-primary" role="alert">
                 https://apiDrink.celleta.com/api/drinks
             </div>
 
-            <div class="params">
+            <div class="params mb-5">
 
-                <h4>Parâmetros:</h4>
+
 
                 <button type="button" class="btn btn-secondary" data-bs-container="body" data-bs-toggle="popover"
                     data-bs-placement="top" data-bs-content="Top popover">
@@ -116,7 +133,7 @@
                     data-bs-placement="top" data-bs-content="Top popover">
                     {FRUTA_ID : NUMBER}
                 </button>
-               
+
             </div>
 
             <h2 class="mb-5  text-center">Rotas para Criação [POST]</h2>
@@ -127,13 +144,13 @@
 
             <div class="params">
 
-                <h4>Parâmetros:</h4>
+
 
                 <button type="button" class="btn btn-secondary" data-bs-container="body" data-bs-toggle="popover"
                     data-bs-placement="top" data-bs-content="Top popover">
                     {NOME : STRING}
                 </button>
-               
+
             </div>
 
             <div class="alert alert-success" role="alert">
@@ -142,13 +159,13 @@
 
             <div class="params">
 
-                <h4>Parâmetros:</h4>
+
 
                 <button type="button" class="btn btn-secondary" data-bs-container="body" data-bs-toggle="popover"
                     data-bs-placement="top" data-bs-content="Top popover">
                     {NOME : STRING}
                 </button>
-               
+
             </div>
 
             <div class="alert alert-success" role="alert">
@@ -157,13 +174,13 @@
 
             <div class="params">
 
-                <h4>Parâmetros:</h4>
+
 
                 <button type="button" class="btn btn-secondary" data-bs-container="body" data-bs-toggle="popover"
                     data-bs-placement="top" data-bs-content="Top popover">
                     {NOME : STRING}
                 </button>
-               
+
             </div>
 
             <div class="alert alert-success" role="alert">
@@ -171,8 +188,6 @@
             </div>
 
             <div class="params">
-
-                <h4>Parâmetros:</h4>
 
                 <button type="button" class="btn btn-secondary" data-bs-container="body" data-bs-toggle="popover"
                     data-bs-placement="top" data-bs-content="Top popover">
@@ -203,7 +218,7 @@
                     data-bs-placement="top" data-bs-content="Top popover">
                     {INGREDIENTES : ARRAY}
                 </button>
-               
+
             </div>
         </section>
 
