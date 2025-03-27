@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\SugestaoController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\BebidaController;
@@ -23,3 +24,4 @@ Route::post('/drink/novo', [DrinkController::class, 'store']);
 Route::post('/fruta/novo', [FrutaController::class, 'store']);
 Route::post('/bebida/novo', [BebidaController::class, 'store']);
 Route::post('/ingrediente/novo', [IngredienteController::class, 'store']);
+Route::post('/sugestao/novo', [SugestaoController::class, 'store']);

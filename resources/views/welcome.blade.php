@@ -220,6 +220,42 @@
                 </button>
 
             </div>
+
+
+            <div class="alert alert-success" role="alert">
+                https://apiDrink.celleta.com/api/sugestao/novo
+            </div>
+
+            <div class="params">
+
+                <button type="button" class="btn btn-secondary" data-bs-container="body" data-bs-toggle="popover"
+                    data-bs-placement="top" data-bs-content="Top popover">
+                    {NOME : STRING}
+                </button>
+
+                <button type="button" class="btn btn-secondary" data-bs-container="body" data-bs-toggle="popover"
+                    data-bs-placement="top" data-bs-content="Top popover">
+                    {EMAIL : STRING}
+                </button>
+
+                <button type="button" class="btn btn-secondary" data-bs-container="body" data-bs-toggle="popover"
+                    data-bs-placement="top" data-bs-content="Top popover">
+                    {NOMEDRINK : STRING}
+                </button>
+
+                <button type="button" class="btn btn-secondary" data-bs-container="body" data-bs-toggle="popover"
+                    data-bs-placement="top" data-bs-content="Top popover">
+                    {INGREDIENTES : STRING}
+                </button>
+
+                <button type="button" class="btn btn-secondary" data-bs-container="body" data-bs-toggle="popover"
+                    data-bs-placement="top" data-bs-content="Top popover">
+                    {RECADO : STRING}
+                </button>
+
+                
+
+            </div>
         </section>
 
     </main>
