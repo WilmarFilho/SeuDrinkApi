@@ -8,69 +8,120 @@ use Illuminate\Http\Request;
 class IngredienteController extends Controller
 {
     /**
-     * Display a listing of the resource.
+     * @OA\Get(
+     *     path="/api/ingredientes",
+     *     summary="Lista todos os ingredientes filtrados",
+     *     tags={"Ingredientes"},
+     *     @OA\Parameter(
+     *         name="nome",
+     *         in="query",
+     *         description="Nome do ingrediente",
+     *         required=false,
+     *         @OA\Schema(type="string")
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Lista de ingredientes retornada com sucesso",
+     *         @OA\JsonContent(type="array", @OA\Items(ref="#/components/schemas/Ingrediente"))
+     *     )
+     * )
      */
     public function index(Request $request)
     {
-        if($request) {
-            $ingrediente = Ingrediente::where('nome', 'like', $request->input('nome').'%')->get();
+        if ($request) {
+            $ingrediente = Ingrediente::where('nome', 'like', $request->input('nome') . '%')->get();
         } else {
             $ingrediente = Ingrediente::all();
         }
 
-        return  response()->json($ingrediente);
-
+        return response()->json($ingrediente);
     }
 
     /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
+     * @OA\Post(
+     *     path="/api/ingrediente/novo",
+     *     summary="Cria um novo ingrediente",
+     *     tags={"Ingredientes"},
+     *     @OA\RequestBody(
+     *         required=true,
+     *         @OA\MediaType(
+     *             mediaType="application/json",
+     *             @OA\Schema(
+     *                 required={"nome"},
+     *                 @OA\Property(property="nome", type="string", example="Açúcar")
+     *             )
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=201,
+     *         description="Ingrediente criado com sucesso",
+     *         @OA\JsonContent(ref="#/components/schemas/Ingrediente")
+     *     )
+     * )
      */
     public function store(Request $request)
     {
-        $novoIngrediente  = Ingrediente::create([
-            "nome"=> $request->input("nome")
+        $novoIngrediente = Ingrediente::create([
+            "nome" => $request->input("nome")
         ]);
 
         return response()->json(['message' => 'Ingrediente criado com sucesso!', 'data' => $novoIngrediente], 201);
     }
 
     /**
-     * Display the specified resource.
+     * @OA\Put(
+     *     path="/api/ingrediente/{id}",
+     *     summary="Atualiza um ingrediente existente",
+     *     tags={"Ingredientes"},
+     *     @OA\Parameter(
+     *         name="id",
+     *         in="path",
+     *         required=true,
+     *         description="ID do ingrediente",
+     *         @OA\Schema(type="integer")
+     *     ),
+     *     @OA\RequestBody(
+     *         required=true,
+     *         @OA\MediaType(
+     *             mediaType="application/json",
+     *             @OA\Schema(
+     *                 required={"nome"},
+     *                 @OA\Property(property="nome", type="string", example="Sal")
+     *             )
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Ingrediente atualizado com sucesso",
+     *         @OA\JsonContent(ref="#/components/schemas/Ingrediente")
+     *     ),
+     *     @OA\Response(
+     *         response=404,
+     *         description="Ingrediente não encontrado"
+     *     )
+     * )
      */
-    public function show(Ingrediente $ingrediente)
+    public function update(Request $request, $id)
     {
-        //
+        $request->validate([
+            'nome' => 'required|string',
+        ]);
+
+        $ingrediente = Ingrediente::find($id);
+        if (!$ingrediente) {
+            return response()->json(['message' => 'Ingrediente não encontrado'], 404);
+        }
+
+        // Atualizar os campos do ingrediente
+        $ingrediente->nome = $request->input('nome');
+        $ingrediente->save();
+
+        return response()->json(['message' => 'Ingrediente atualizado com sucesso!', 'data' => $ingrediente], 200);
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Ingrediente $ingrediente)
+    
+    public function destroy($id)
     {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, Ingrediente $ingrediente)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(Ingrediente $ingrediente)
-    {
-        //
+        
     }
 }

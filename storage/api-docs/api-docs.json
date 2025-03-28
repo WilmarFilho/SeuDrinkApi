@@ -1,0 +1,846 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "SeuDrink API",
+        "description": "Documentação da API usando Swagger",
+        "version": "2.0.0"
+    },
+    "servers": [
+        {
+            "url": "http://127.0.0.1:8001",
+            "description": "Servidor de Produção"
+        }
+    ],
+    "paths": {
+        "/api": {},
+        "/api/bebidas": {
+            "get": {
+                "tags": [
+                    "Bebidas"
+                ],
+                "summary": "Lista todas as bebidas filtradas",
+                "operationId": "37ccffc612a2280f9619233d3ac8795c",
+                "parameters": [
+                    {
+                        "name": "nome",
+                        "in": "query",
+                        "description": "Nome da bebida",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Lista de bebidas retornada com sucesso",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/Bebida"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/bebida/novo": {
+            "post": {
+                "tags": [
+                    "Bebidas"
+                ],
+                "summary": "Cria uma nova bebida",
+                "operationId": "d33eff028d0f1b14627c24a507c365ed",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "nome"
+                                ],
+                                "properties": {
+                                    "nome": {
+                                        "type": "string",
+                                        "example": "Vodka"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Bebida criada com sucesso",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Bebida"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/bebida/{id}": {
+            "put": {
+                "tags": [
+                    "Bebidas"
+                ],
+                "summary": "Atualiza uma bebida existente",
+                "operationId": "1972c1995d8a87003729b71178f3d8e5",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID da bebida",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "nome"
+                                ],
+                                "properties": {
+                                    "nome": {
+                                        "type": "string",
+                                        "example": "Cerveja"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Bebida atualizada com sucesso",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Bebida"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Bebida não encontrada"
+                    }
+                }
+            }
+        },
+        "/api/drink": {
+            "get": {
+                "tags": [
+                    "Drinks"
+                ],
+                "summary": "Lista todos os drinks filtrados",
+                "operationId": "29a7e7fc56b6f4cd34f20fb7a64d5417",
+                "parameters": [
+                    {
+                        "name": "fruta_id",
+                        "in": "query",
+                        "description": "ID da fruta usada no drink",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "bebida_id",
+                        "in": "query",
+                        "description": "ID da bebida usada no drink",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Lista de drinks retornada com sucesso",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/Drink"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/drink/novo": {
+            "post": {
+                "tags": [
+                    "Drinks"
+                ],
+                "summary": "Cria um novo drink",
+                "operationId": "0a22e9faec73f45a305c1c8aeec28ed2",
+                "parameters": [
+                    {
+                        "name": "ingrediente_ids[]",
+                        "in": "query",
+                        "description": "IDs dos ingredientes",
+                        "required": true,
+                        "schema": {
+                            "description": "Lista de IDs dos ingredientes",
+                            "type": "array",
+                            "items": {
+                                "type": "integer"
+                            }
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "required": [
+                                    "nome",
+                                    "foto",
+                                    "preparo",
+                                    "fruta_id",
+                                    "bebida_id"
+                                ],
+                                "properties": {
+                                    "nome": {
+                                        "type": "string",
+                                        "example": "Mojito"
+                                    },
+                                    "foto": {
+                                        "type": "string",
+                                        "format": "binary"
+                                    },
+                                    "preparo": {
+                                        "type": "string",
+                                        "example": "Misture hortelã, limão e rum"
+                                    },
+                                    "fruta_id": {
+                                        "type": "integer",
+                                        "example": 1
+                                    },
+                                    "bebida_id": {
+                                        "type": "integer",
+                                        "example": 2
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Drink criado com sucesso",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Drink"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/drink/{id}": {
+            "post": {
+                "tags": [
+                    "Drinks"
+                ],
+                "summary": "Atualiza um drink existente",
+                "operationId": "bd1b2840677921c24fca3f981a73adc0",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID do drink a ser atualizado",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "ingrediente_ids[]",
+                        "in": "query",
+                        "description": "IDs dos ingredientes",
+                        "required": true,
+                        "schema": {
+                            "description": "Lista de IDs dos ingredientes",
+                            "type": "array",
+                            "items": {
+                                "type": "integer"
+                            }
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "required": [
+                                    "nome",
+                                    "foto",
+                                    "preparo",
+                                    "fruta_id",
+                                    "bebida_id"
+                                ],
+                                "properties": {
+                                    "nome": {
+                                        "type": "string",
+                                        "example": "Mojito"
+                                    },
+                                    "foto": {
+                                        "type": "string",
+                                        "format": "binary"
+                                    },
+                                    "preparo": {
+                                        "type": "string",
+                                        "example": "Misture hortelã, limão e rum"
+                                    },
+                                    "fruta_id": {
+                                        "type": "integer",
+                                        "example": 1
+                                    },
+                                    "bebida_id": {
+                                        "type": "integer",
+                                        "example": 2
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Drink atualizado com sucesso",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Drink"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Drink não encontrado"
+                    }
+                }
+            }
+        },
+        "/api/frutas": {
+            "get": {
+                "tags": [
+                    "Frutas"
+                ],
+                "summary": "Lista todas as frutas filtradas",
+                "operationId": "28b7d822ef44995b335e44536672f012",
+                "parameters": [
+                    {
+                        "name": "nome",
+                        "in": "query",
+                        "description": "Nome da fruta",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Lista de frutas retornada com sucesso",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/Fruta"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/fruta/novo": {
+            "post": {
+                "tags": [
+                    "Frutas"
+                ],
+                "summary": "Cria uma nova fruta",
+                "operationId": "3dab7c457257e7aae6479a85e55ba482",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "nome"
+                                ],
+                                "properties": {
+                                    "nome": {
+                                        "type": "string",
+                                        "example": "Maçã"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Fruta criada com sucesso",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Fruta"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/fruta/{id}": {
+            "put": {
+                "tags": [
+                    "Frutas"
+                ],
+                "summary": "Atualiza uma fruta existente",
+                "operationId": "9aa9e732d649dd386da87e8aaa807cc6",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID da fruta",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "nome"
+                                ],
+                                "properties": {
+                                    "nome": {
+                                        "type": "string",
+                                        "example": "Pera"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Fruta atualizada com sucesso",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Fruta"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Fruta não encontrada"
+                    }
+                }
+            }
+        },
+        "/api/ingredientes": {
+            "get": {
+                "tags": [
+                    "Ingredientes"
+                ],
+                "summary": "Lista todos os ingredientes filtrados",
+                "operationId": "938da4a3ab271bf6f244f8ac60cf67a4",
+                "parameters": [
+                    {
+                        "name": "nome",
+                        "in": "query",
+                        "description": "Nome do ingrediente",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Lista de ingredientes retornada com sucesso",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/Ingrediente"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/ingrediente/novo": {
+            "post": {
+                "tags": [
+                    "Ingredientes"
+                ],
+                "summary": "Cria um novo ingrediente",
+                "operationId": "2ac6fc920808513492bc86e6514159da",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "nome"
+                                ],
+                                "properties": {
+                                    "nome": {
+                                        "type": "string",
+                                        "example": "Açúcar"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Ingrediente criado com sucesso",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Ingrediente"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/ingrediente/{id}": {
+            "put": {
+                "tags": [
+                    "Ingredientes"
+                ],
+                "summary": "Atualiza um ingrediente existente",
+                "operationId": "6f446e09f72b7940fcee922e838465f6",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID do ingrediente",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "nome"
+                                ],
+                                "properties": {
+                                    "nome": {
+                                        "type": "string",
+                                        "example": "Sal"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Ingrediente atualizado com sucesso",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Ingrediente"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Ingrediente não encontrado"
+                    }
+                }
+            }
+        },
+        "/api/sugestoes": {
+            "get": {
+                "tags": [
+                    "Sugestões"
+                ],
+                "summary": "Lista todas as sugestões",
+                "operationId": "a1719617bf3f201b0f4ff23972c010e1",
+                "responses": {
+                    "200": {
+                        "description": "Lista de sugestões retornada com sucesso",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/Sugestao"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/sugestao/novo": {
+            "post": {
+                "tags": [
+                    "Sugestões"
+                ],
+                "summary": "Cria uma nova sugestão",
+                "operationId": "67b1c17ac3859fc9de67d36d4bc4d21d",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "nome",
+                                    "email",
+                                    "nomeDrink",
+                                    "ingredientes",
+                                    "recado"
+                                ],
+                                "properties": {
+                                    "nome": {
+                                        "type": "string",
+                                        "example": "Wilmar"
+                                    },
+                                    "email": {
+                                        "type": "email",
+                                        "example": "wilmar@gmail.com"
+                                    },
+                                    "nomeDrink": {
+                                        "type": "string",
+                                        "example": "Mojito"
+                                    },
+                                    "ingredientes": {
+                                        "type": "string",
+                                        "example": "Sal, Açucar .."
+                                    },
+                                    "recado": {
+                                        "type": "string",
+                                        "example": "Misture tudo e ..."
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Sugestão criada com sucesso",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Sugestao"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "components": {
+        "schemas": {
+            "Bebida": {
+                "title": "Bebida",
+                "description": "Modelo de uma Bebida",
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "nome": {
+                        "type": "string",
+                        "example": "Vodka"
+                    }
+                },
+                "type": "object"
+            },
+            "Drink": {
+                "title": "Drink",
+                "description": "Modelo de um Drink",
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "nome": {
+                        "type": "string",
+                        "example": "Caipirinha"
+                    },
+                    "foto": {
+                        "type": "string",
+                        "example": "https://example.com/drink.jpg"
+                    },
+                    "preparo": {
+                        "type": "string",
+                        "example": "Misture todos os ingredientes e sirva."
+                    },
+                    "fruta_id": {
+                        "type": "integer",
+                        "example": 2
+                    },
+                    "bebida_id": {
+                        "type": "integer",
+                        "example": 1
+                    }
+                },
+                "type": "object"
+            },
+            "Drink_Ingredientes": {
+                "title": "Ingredientes do Drink",
+                "description": "Ingredientes de um Drink",
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "drink_id": {
+                        "type": "integer",
+                        "example": 10
+                    },
+                    "ingrediente_id": {
+                        "type": "integer",
+                        "example": 11
+                    }
+                },
+                "type": "object"
+            },
+            "Fruta": {
+                "title": "Fruta",
+                "description": "Modelo de uma Fruta",
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "nome": {
+                        "type": "string",
+                        "example": "Morango"
+                    }
+                },
+                "type": "object"
+            },
+            "Ingrediente": {
+                "title": "Ingrediente",
+                "description": "Modelo de um Ingrediente",
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "nome": {
+                        "type": "string",
+                        "example": "Leite Condensado"
+                    }
+                },
+                "type": "object"
+            },
+            "Sugestao": {
+                "title": "Sugestão",
+                "description": "Modelo de uma Sugestao",
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "nome": {
+                        "type": "string",
+                        "example": "Wilmar Filho"
+                    },
+                    "email": {
+                        "type": "email",
+                        "example": "wilmarfilho32@hotmail.com"
+                    },
+                    "nomeDrink": {
+                        "type": "string",
+                        "example": "Caipirinha"
+                    },
+                    "ingredientes": {
+                        "type": "string",
+                        "example": "Açucar, Leite ..."
+                    },
+                    "recado": {
+                        "type": "string",
+                        "example": "Esse é um drink muito ..."
+                    }
+                },
+                "type": "object"
+            }
+        }
+    },
+    "tags": [
+        {
+            "name": "Bebidas",
+            "description": "Bebidas"
+        },
+        {
+            "name": "Drinks",
+            "description": "Drinks"
+        },
+        {
+            "name": "Frutas",
+            "description": "Frutas"
+        },
+        {
+            "name": "Ingredientes",
+            "description": "Ingredientes"
+        },
+        {
+            "name": "Sugestões",
+            "description": "Sugestões"
+        }
+    ]
+}

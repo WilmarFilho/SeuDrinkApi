@@ -9,70 +9,122 @@ use Illuminate\Http\Request;
 class BebidaController extends Controller
 {
     /**
-     * Display a listing of the resource.
+     * @OA\Get(
+     *     path="/api/bebidas",
+     *     summary="Lista todas as bebidas filtradas",
+     *     tags={"Bebidas"},
+     *     @OA\Parameter(
+     *         name="nome",
+     *         in="query",
+     *         description="Nome da bebida",
+     *         required=false,
+     *         @OA\Schema(type="string")
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Lista de bebidas retornada com sucesso",
+     *         @OA\JsonContent(type="array", @OA\Items(ref="#/components/schemas/Bebida"))
+     *     )
+     * )
      */
     public function index(Request $request)
     {
-
-        if($request) {
-            $bebida = Bebida::where('nome', 'like', '%' . $request->input('nome').'%')->get();
+        if ($request) {
+            $bebida = Bebida::where('nome', 'like', $request->input('nome') . '%')->get();
         } else {
             $bebida = Bebida::all();
         }
 
-        return  response()->json($bebida);
-
+        return response()->json($bebida);
     }
 
     /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
+     * @OA\Post(
+     *     path="/api/bebida/novo",
+     *     summary="Cria uma nova bebida",
+     *     tags={"Bebidas"},
+     *     @OA\RequestBody(
+     *         required=true,
+     *         @OA\MediaType(
+     *             mediaType="application/json",
+     *             @OA\Schema(
+     *                 required={"nome"},
+     *                 @OA\Property(property="nome", type="string", example="Vodka")
+     *             )
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=201,
+     *         description="Bebida criada com sucesso",
+     *         @OA\JsonContent(ref="#/components/schemas/Bebida")
+     *     )
+     * )
      */
     public function store(Request $request)
     {
         $novaBebida = Bebida::create([
-            "nome"=> $request->input("nome")
+            "nome" => $request->input("nome")
         ]);
 
         return response()->json(['message' => 'Bebida criada com sucesso!', 'data' => $novaBebida], 201);
     }
 
     /**
-     * Display the specified resource.
+     * @OA\Put(
+     *     path="/api/bebida/{id}",
+     *     summary="Atualiza uma bebida existente",
+     *     tags={"Bebidas"},
+     *     @OA\Parameter(
+     *         name="id",
+     *         in="path",
+     *         required=true,
+     *         description="ID da bebida",
+     *         @OA\Schema(type="integer")
+     *     ),
+     *     @OA\RequestBody(
+     *         required=true,
+     *         @OA\MediaType(
+     *             mediaType="application/json",
+     *             @OA\Schema(
+     *                 required={"nome"},
+     *                 @OA\Property(property="nome", type="string", example="Cerveja")
+     *             )
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Bebida atualizada com sucesso",
+     *         @OA\JsonContent(ref="#/components/schemas/Bebida")
+     *     ),
+     *     @OA\Response(
+     *         response=404,
+     *         description="Bebida não encontrada"
+     *     )
+     * )
      */
-    public function show(Bebida $bebida)
+    public function update(Request $request, $id)
     {
-        //
+        $request->validate([
+            'nome' => 'required|string',
+        ]);
+
+        $bebida = Bebida::find($id);
+        if (!$bebida) {
+            return response()->json(['message' => 'Bebida não encontrado'], 404);
+        }
+
+        // Atualizar os campos da bebida
+        $bebida->nome = $request->input('nome');
+        $bebida->save();
+
+        return response()->json(['message' => 'Bebida atualizada com sucesso!', 'data' => $bebida], 200);
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Bebida $bebida)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, Bebida $bebida)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
+    
     public function destroy(Bebida $bebida)
     {
-        //
+        
     }
+
+    
 }

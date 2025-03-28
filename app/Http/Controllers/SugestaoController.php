@@ -8,60 +8,54 @@ use Illuminate\Http\Request;
 class SugestaoController extends Controller
 {
     /**
-     * Display a listing of the resource.
+     * @OA\Get(
+     *     path="/api/sugestoes",
+     *     summary="Lista todas as sugestões",
+     *     tags={"Sugestões"},
+     *     @OA\Response(
+     *         response=200,
+     *         description="Lista de sugestões retornada com sucesso",
+     *         @OA\JsonContent(type="array", @OA\Items(ref="#/components/schemas/Sugestao"))
+     *     )
+     * )
      */
     public function index()
     {
-        //
+        $sugestoes = Sugestao::all();
+        return response()->json($sugestoes);
     }
 
     /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
+     * @OA\Post(
+     *     path="/api/sugestao/novo",
+     *     summary="Cria uma nova sugestão",
+     *     tags={"Sugestões"},
+     *     @OA\RequestBody(
+     *         required=true,
+     *         @OA\MediaType(
+     *             mediaType="application/json",
+     *             @OA\Schema(
+     *                 required={"nome", "email", "nomeDrink", "ingredientes", "recado"},
+     *                 
+     *                 @OA\Property(property="nome", type="string", example="Wilmar"),
+     *                 @OA\Property(property="email", type="email", example="wilmar@gmail.com"),
+     *                 @OA\Property(property="nomeDrink", type="string", example="Mojito"),
+     *                 @OA\Property(property="ingredientes", type="string", example="Sal, Açucar .."),
+     *                 @OA\Property(property="recado", type="string", example="Misture tudo e ...")
+     *             )
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=201,
+     *         description="Sugestão criada com sucesso",
+     *         @OA\JsonContent(ref="#/components/schemas/Sugestao")
+     *     )
+     * )
      */
     public function store(Request $request)
     {
         $novaSugestao = Sugestao::create($request->all());
 
         return response()->json(['message' => 'Sugestão criada com sucesso!', 'data' => $novaSugestao], 201);
-    }
-
-    /**
-     * Display the specified resource.
-     */
-    public function show(Sugestao $sugestao)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Sugestao $sugestao)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, Sugestao $sugestao)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(Sugestao $sugestao)
-    {
-        //
     }
 }
