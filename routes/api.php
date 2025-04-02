@@ -23,11 +23,8 @@ Route::get('/frutas', [FrutaController::class, 'index']);
 Route::post('/fruta/novo', [FrutaController::class, 'store']);
 Route::put('/fruta/{id}', [FrutaController::class, 'update']);
 
-Route::get('/ingredientes', [IngredienteController::class, 'index']);
-Route::post('/ingrediente/novo', [IngredienteController::class, 'store']);
-Route::put('/ingrediente/{id}', [IngredienteController::class, 'update']);
-
 Route::get('/drink', [DrinkController::class, 'index']);
+Route::get('/drink/nome', [DrinkController::class, 'buscaPorNome']);
 Route::post('/drink/novo', [DrinkController::class, 'store']);
 Route::post('/drink/{id}', [DrinkController::class, 'update']);
 

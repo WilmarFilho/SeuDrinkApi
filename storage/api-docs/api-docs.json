@@ -186,6 +186,41 @@
                 }
             }
         },
+        "/api/drink/nome": {
+            "get": {
+                "tags": [
+                    "Drinks"
+                ],
+                "summary": "Lista todos os drinks filtrados por nome",
+                "operationId": "b95b50b1a51ddcb2ca1e755ac916bfcd",
+                "parameters": [
+                    {
+                        "name": "nome",
+                        "in": "query",
+                        "description": "Nome do drink",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Lista de drinks retornada com sucesso",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/Drink"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
         "/api/drink/novo": {
             "post": {
                 "tags": [
@@ -716,13 +751,23 @@
                         "type": "integer",
                         "example": 1
                     },
+                    "created_at": {
+                        "type": "string",
+                        "format": "date-time",
+                        "example": "2025-03-27T22:11:59.000000Z"
+                    },
+                    "updated_at": {
+                        "type": "string",
+                        "format": "date-time",
+                        "example": "2025-03-27T22:11:59.000000Z"
+                    },
                     "nome": {
                         "type": "string",
-                        "example": "Caipirinha"
+                        "example": "Mojito"
                     },
                     "foto": {
                         "type": "string",
-                        "example": "https://example.com/drink.jpg"
+                        "example": "uploads/697APr0Pg544KgrM1ANZC9ctPpQ9slKT621jHahu.png"
                     },
                     "preparo": {
                         "type": "string",
@@ -730,11 +775,96 @@
                     },
                     "fruta_id": {
                         "type": "integer",
-                        "example": 2
+                        "example": 1
                     },
                     "bebida_id": {
                         "type": "integer",
                         "example": 1
+                    },
+                    "frutas": {
+                        "properties": {
+                            "id": {
+                                "type": "integer",
+                                "example": 1
+                            },
+                            "created_at": {
+                                "type": "string",
+                                "format": "date-time",
+                                "example": "2025-03-27T19:08:10.000000Z"
+                            },
+                            "updated_at": {
+                                "type": "string",
+                                "format": "date-time",
+                                "example": "2025-03-27T19:08:10.000000Z"
+                            },
+                            "nome": {
+                                "type": "string",
+                                "example": "Banana"
+                            }
+                        },
+                        "type": "object"
+                    },
+                    "bebidas": {
+                        "properties": {
+                            "id": {
+                                "type": "integer",
+                                "example": 1
+                            },
+                            "created_at": {
+                                "type": "string",
+                                "format": "date-time",
+                                "example": "2025-03-27T19:08:18.000000Z"
+                            },
+                            "updated_at": {
+                                "type": "string",
+                                "format": "date-time",
+                                "example": "2025-03-27T19:08:18.000000Z"
+                            },
+                            "nome": {
+                                "type": "string",
+                                "example": "Refrigerante"
+                            }
+                        },
+                        "type": "object"
+                    },
+                    "ingredientes": {
+                        "type": "array",
+                        "items": {
+                            "properties": {
+                                "id": {
+                                    "type": "integer",
+                                    "example": 1
+                                },
+                                "created_at": {
+                                    "type": "string",
+                                    "format": "date-time",
+                                    "example": "2025-03-27T19:08:25.000000Z"
+                                },
+                                "updated_at": {
+                                    "type": "string",
+                                    "format": "date-time",
+                                    "example": "2025-03-27T19:08:25.000000Z"
+                                },
+                                "nome": {
+                                    "type": "string",
+                                    "example": "Leite Condensado"
+                                },
+                                "pivot": {
+                                    "properties": {
+                                        "drink_id": {
+                                            "type": "integer",
+                                            "example": 4
+                                        },
+                                        "ingrediente_id": {
+                                            "type": "integer",
+                                            "example": 1
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            },
+                            "type": "object"
+                        }
                     }
                 },
                 "type": "object"

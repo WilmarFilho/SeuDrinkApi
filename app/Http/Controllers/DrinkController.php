@@ -15,7 +15,7 @@ use Illuminate\Http\Request;
  *      description="Documentação da API usando Swagger"
  * )
  * @OA\Server(
- *      url="http://127.0.0.1:8001",
+ *      url="https://apidrink.celleta.com/",
  *      description="Servidor de Produção"
  * )
  */
@@ -38,7 +38,7 @@ class DrinkController extends Controller
      *         name="bebida_id",
      *         in="query",
      *         description="ID da bebida usada no drink",
-     *         required=true,
+     *         required=false,
      *         @OA\Schema(type="integer")
      *     ),
      *     @OA\Response(
@@ -48,14 +48,48 @@ class DrinkController extends Controller
      *     )
      * )
      */
-
     public function index(Request $request)
-    {
-        $drinks = Drink::where('fruta_id', $request->input('fruta_id'))->where('bebida_id', $request->input('bebida_id'))->get();
+    {   
+        
+        $drinks = Drink::where('fruta_id', $request->input('fruta_id'))->with(['frutas' , 'bebidas'])->get();
+        
+        if($request->input('bebida_id')) {
+            $drinks = Drink::where('fruta_id', $request->input('fruta_id'))
+            ->where('bebida_id', $request->input('bebida_id'))->with(['frutas' , 'bebidas'])->get();
+        }
+        
 
         return response()->json($drinks);
-
     }
+
+    /**
+     * @OA\Get(
+     *     path="/api/drink/nome",
+     *     summary="Lista todos os drinks filtrados por nome",
+     *     tags={"Drinks"},
+     *     @OA\Parameter(
+     *         name="nome",
+     *         in="query",
+     *         description="Nome do drink",
+     *         required=true,
+     *         @OA\Schema(type="string")
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Lista de drinks retornada com sucesso",
+     *         @OA\JsonContent(type="array", @OA\Items(ref="#/components/schemas/Drink"))
+     *     )
+     * )
+     */
+    public function buscaPorNome(Request $request)
+    {
+        $drinks = Drink::where('nome', 'like', $request->nome . '%')
+            ->with(['frutas', 'bebidas', 'ingredientes'])
+            ->get();
+
+        return response()->json($drinks);
+    }
+
 
     /**
      * Show the form for creating a new resource.
@@ -84,17 +118,17 @@ class DrinkController extends Controller
      *             )
      *         )
      *     ),
-     *     @OA\Parameter(
-     *         name="ingrediente_ids[]",
-     *         in="query",
-     *         description="IDs dos ingredientes",
-     *         required=true,
-     *         @OA\Schema(
-     *             type="array",
-     *             items=@OA\Items(type="integer"),
-     *             description="Lista de IDs dos ingredientes"
-     *         )
-     *     ),
+     *     
+     *        
+     *        
+     *         
+     *        
+     *         
+     *             
+     *            
+     *            
+     *        
+     *     
      *     @OA\Response(
      *         response=201,
      *         description="Drink criado com sucesso",
@@ -110,11 +144,10 @@ class DrinkController extends Controller
 
         $request->validate([
             'nome' => 'required|string',
-            'foto' => "required|image|mimes:jpg,png,jpeg|max:2048",
+            'foto' => "required|image|mimes:webp|max:2348",
             'preparo' => 'required|string',
             'fruta_id' => 'required|integer',
             'bebida_id' => 'required|integer',
-            'ingrediente_ids' => 'required|array'
         ]);
 
 
@@ -132,15 +165,6 @@ class DrinkController extends Controller
             "fruta_id" => $request->input("fruta_id"),
             "bebida_id" => $request->input("bebida_id"),
         ]);
-
-
-        // Adicionar os ingredientes na tabela drinks_ingredientes
-        foreach ($request->ingrediente_ids as $ingredienteId) {
-            DrinkIngrediente::create([
-                'drink_id' => $novoDrink->id,
-                'ingrediente_id' => $ingredienteId
-            ]);
-        }
 
         return response()->json(['message' => 'Drink criado com sucesso!', 'data' => $novoDrink], 201);
     }
@@ -188,17 +212,17 @@ class DrinkController extends Controller
      *             )
      *         )
      *     ),
-     *     @OA\Parameter(
-     *         name="ingrediente_ids[]",
-     *         in="query",
-     *         description="IDs dos ingredientes",
-     *         required=true,
-     *         @OA\Schema(
-     *             type="array",
-     *             items=@OA\Items(type="integer"),
-     *             description="Lista de IDs dos ingredientes"
-     *         )
-     *     ),
+     *     
+     *         
+     *        
+     *         
+     *         
+     *         
+     *            
+     *            
+     *             
+     *        
+     *     
      *     @OA\Response(
      *         response=200,
      *         description="Drink atualizado com sucesso",
@@ -219,7 +243,6 @@ class DrinkController extends Controller
             'preparo' => 'required|string',
             'fruta_id' => 'required|integer|exists:frutas,id',
             'bebida_id' => 'required|integer|exists:bebidas,id',
-            'ingrediente_ids' => 'required|array',
         ]);
 
         // Buscar o drink pelo ID
@@ -241,8 +264,7 @@ class DrinkController extends Controller
             $drink->foto = 'storage/' . $path;
         }
 
-        // Atualizar os ingredientes (remover antigos e adicionar novos)
-        $drink->ingredientes()->sync($validated['ingrediente_ids']);
+        
 
         // Salva as alterações
         $drink->save();
